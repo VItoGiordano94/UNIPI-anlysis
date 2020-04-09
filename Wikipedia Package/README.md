@@ -4,6 +4,13 @@ Wikipedia is a multilingual online encyclopaedia created and maintained as an op
 - output: the output class and the means of output;
 - function: the explaination
 
+The Wikipedia package use the following external package sources:
+- **tidyverse**
+- **rvest**
+- **wikipediaR**
+- **rebus**
+
+You must rember to install these packages and import (using *library()*) in your R workspace.
 
 ### 1. wiki_extract_text
 The function **wiki_extract_text** is a function that extract the content of Wikipedia web page in text format. 

@@ -9,7 +9,8 @@ Wikipedia is a multilingual online encyclopaedia created and maintained as an op
 The function **wiki_extract_text** is a function that extract the content of Wikipedia web page in text format. 
 
 #### 1.1 Input
-- **page_name**: *string object* that is reffered to a element in Wikipedia database;
+- **page_name**: *string object*. The element of Wikipedia database that you want to search;
+- **language**: *string object*. The language code of the project that you want to search. The starting value of the argument **language** is *"en"* for english language. 
 
 #### 1.2 Output
 The output is a *vector string object* that contains the Wikipedia content of the input element. The content is divided in paragraph: each element of the vector is a paragraph. 

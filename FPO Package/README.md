@@ -12,11 +12,17 @@ The FreePatentsOnline package use the following external package sources:
 You must rember to install these packages and import (using *library()*) in your R workspace.
 
 ### 1. patent_count_query
-The function **patent_count_query** is a function that extract the content of Wikipedia web page in text format. 
+The function **patent_count_query** is a function that extract the number of results in FreePatentsOnline with an input query. 
 
 #### 1.1 Input
-- **page_name**: *string object*. The element of Wikipedia database that you want to search;
-- **language**: *string object*. The language code of the wikipedia element that you want to search. The starting value of the argument **language** is *"en"* for english language. 
+- **query**: *string object*. The query that you want to search. You must follow the instructions in http://www.freepatentsonline.com/search.html?srch=xprtsrch to Construct the query.
+- **uspat**: *string object*. This argumnet allows you to include the US Patents in your search. If you don't want to include these patens you must set **uspat** as *"off"*. Otherwise, if you want to include these type of patens you must set **uspat** as *"on"*. The starting value of the argument **uspat** is *"on"*. 
+- **usapp**: *string object*. This argumnet allows you to include the US Patent Applications in your search. If you don't want to include these patens you must set **usapp** as *"off"*. Otherwise, if you want to include these type of patens you must set **usapp** as *"on"*. The starting value of the argument **usapp** is *"on"*. 
+- **eupat**: *string object*. This argumnet allows you to include the European patetens in your search. If you don't want to include these patens you must set **eupat** as *"off"*. Otherwise, if you want to include these type of patens you must set **eupat** as *"on"*. The starting value of the argument **eupat** is *"on"*.
+- **jp**: *string object*. This argumnet allows you to include the Abstracts of Japan in your search. If you don't want to include these patens you must set **jp** as *"off"*. Otherwise, if you want to include these type of patens you must set **jp** as *"on"*. The starting value of the argument **jp** is *"off"*.
+- **pct**: *string object*. This argumnet allows you to include the WIPO patents in your search. If you don't want to include these patens you must set **pct** as *"off"*. Otherwise, if you want to include these type of patens you must set **pct** as *"on"*. The starting value of the argument **pct** is *"off"*.
+- **depat**: *string object*. This argumnet allows you to include the German Patents in your search. If you don't want include these patens you must set **depat** as *"off"*. Otherwise, if you want to include these type of patens you must set **depat** as *"on"*. The starting value of the argument **depat** is *"off"*.
+- **stemming**: *string object*. This argumnet allows you to stemm the query for your search. If you don't want to include the stemming words in your search you must set **stemming** as *"off"*. Otherwise, if you want to include the stemming words in your search you must set **stemming** as *"on"*. The starting value of the argument **stemming** is *"off"*.
 
 #### 1.2 Output
-The output is a *vector string object* that contains the Wikipedia content of the input element. The content is divided in paragraph: each element of the vector is a paragraph. 
+The output is a *integer object* that contains the number of patents in FreePatentsOnline that you can find with your query.

@@ -1,9 +1,3 @@
-library(tidyverse)
-library(WikipediR)
-library(rvest)
-library(rebus)
-
-
 # wiki_extract_txt --------------------------------------------------------
 
 wiki_extract_txt <- function(page_name, language = "en"){

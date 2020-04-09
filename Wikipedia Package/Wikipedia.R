@@ -5,11 +5,11 @@ library(rebus)
 
 # wiki_extract_txt --------------------------------------------------------
 
-wiki_extract_txt <- function(page_name){
+wiki_extract_txt <- function(page_name, language = "en"){
   
   # Extract content of Wikipedia Web Page
   
-  output <- try(page_content("en","wikipedia", page_name = page_name)$parse$text$'*',silent = TRUE) %>% 
+  output <- try(page_content(language = language,"wikipedia", page_name = page_name)$parse$text$'*',silent = TRUE) %>% 
    
     # split the text for paragraph <p>
     strsplit(split = "<p>") %>% 

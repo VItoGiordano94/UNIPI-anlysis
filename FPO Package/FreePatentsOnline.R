@@ -1,4 +1,4 @@
-# Query result on FPO with pre-builded query ------------------------------
+# patent_count_query ------------------------------------------------------
 
 patent_count_query <- function(query, uspat = "on", usapp = "on", 
                                eupat = "on", stemming = "off", jp = "off", pct = "off",

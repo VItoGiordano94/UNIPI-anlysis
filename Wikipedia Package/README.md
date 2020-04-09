@@ -1,14 +1,15 @@
-# UNIPI-anlysis
-The repository is structured in three main package of functions:
-- Wikipedia package
-- Scopus package
-- FreePatentsOnline package (FPO package)
+# Wikipedia
+Wikipedia is a multilingual online encyclopaedia created and maintained as an open collaboration project by a community of volunteer editors. This file README contains all the information about the functions in Wikipedia Package. I explain you all functuions of Wikipedia Package in the following sections. In each section I show you a single function with explaination about:
+- input: the input class and the means of input;
+- output: the output class and the means of output;
+- function: the explaination
 
-## Wikipedia package
-The Wikipedia package is a set of fuctnions to extract information from Wikipedia Sources with R automatically. Wikipedia is a multilingual online encyclopaedia created and maintained as an open collaboration project by a community of volunteer editors.
 
-## Scopus package 
-The Scopus package is a set of funtions to extractr information from Scopus with R automatically. You must have your own Elsevier API key to use these functions. Scopus is the largest abstract and citation database of peer-reviewed literature: scientific journals, books and conference proceedings. Scopus is a source-neutral abstract and citation database curated by independent subject matter experts. It places powerful discovery and analytics tools in the hands of researchers, librarians, institutional research managers and funders.
+### 1. wiki_extract_text
+The function **wiki_extract_text** is a function that extract the content of Wikipedia web page in text format. 
 
-## FPO package
-The FreePatentsOnline (FPO) package is a set of fuctnions to extract information from FreePatentsOnline (FPO) Sources with R automatically. FPO is complete Patent Searching Database and Patent Data Analytics Services. 
+#### 1.1 Input
+- **page_name**: *string object* that is reffered to a element in Wikipedia database;
+
+#### 1.2 Output
+The output is a *vector string object* that contains the Wikipedia content of the input element. The content is divided in paragraph: each element of the vector is a paragraph. 

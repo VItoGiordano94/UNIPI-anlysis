@@ -1,5 +1,6 @@
 library(tidyverse)
 library(WikipediR)
+library(rvest)
 library(rebus)
 
 
@@ -34,17 +35,23 @@ wiki_extract_txt <- function(page_name, language = "en"){
 
 }
 
-##### wiki_extract_link -----------------
 
-wiki_extract_link <- function(page_name){
+# wiki_extract_link -------------------------------------------------------
+
+wiki_extract_link <- function(page_name, language = "en"){
   
-  output <- page_links("en","wikipedia", page = page_name, limit=500) %>% 
+  # Extract the hyper link of wikipedia page 
+  
+  output <- page_links(language = language,"wikipedia", page = page_name, limit = 500) %>% 
     .$query %>% 
     .$pages %>% 
     .[[1]] %>% 
     .$links %>% 
+    
     # take the second element of each element of a list
     map_chr(c(2))  
+  
+  # Return output 
   
   return(output)
   
@@ -97,120 +104,84 @@ wiki_extract_list <- function(page_name){
   
 }
 
-##### wiki_extract_table -----------------
 
-wiki_extract_table <- function(page_vector){
-  
-  output <- tibble(name= character(length(page_vector)),
-                   txt= list(NULL),
-                   definition= character(length(page_vector)),
-                   links= character(length(page_vector)))
-  
-  for(i in seq_along(page_vector)){
-    list_i <- wiki_extract_list(page_vector[i])
-    output[i,1] <- list_i[[1]]
-    output[i,2] <- str_c(list_i[[2]], collapse ="\n")
-    # it does not work every time: better to extract the firts element containing (is | are) +  (a | the ..).
-    # Test on NCR_Corporation, McAfee
-    output[i,3] <- list_i[[2]][1]
-    output[i,4] <- str_c(list_i[[3]], collapse =" | ")
-    
-  }
-  
-  output <- output %>% 
-    mutate(name = str_replace_all(name,"_", " ")) %>% 
-    mutate(links = str_replace_all(links,"_", " ")) %>% 
-    mutate(name = str_to_lower(name)) %>% 
-    mutate(links = str_to_lower(links))
-  
-  
-  return(output)
-  
-}
-
-##### wiki_extract_traduction -----------------
+# wiki_extract_traduction -------------------------------------------------
 
 wiki_extract_traduction <- function(page_name, language_in, language_out){
   
-  page_link <- str_c("https://",language_in,".wikipedia.org/wiki/", page_name, collapse = "")
-  html_position <- str_c(".interwiki-",language_out," .interlanguage-link-target",collapse = "")
+  # Remove white space from the page
+  
+  page_name <- page_name %>% 
+    str_replace_all(" ", "_")
+  
+  # Create the link of page in lenaguage input
+  
+  page_link <- str_c("https://", language_in, ".wikipedia.org/wiki/", page_name, sep = "")
+  
+  
+  # Search the connection between language input web page and output language web page
+  
+  html_position <- str_c(".interwiki-", language_out, " .interlanguage-link-target", sep = "")
+  
   
   output <- try(read_html(page_link), silent= TRUE)
   
   if(is.list(output)) {
+    
+    # Extract the name of Wikipedia page in Output language
+    
     output <- output %>% 
       html_node(html_position) %>%
       html_attr('href') %>% 
       str_match("wiki/" %R% capture("(.*?)") %R% "$") %>% 
       .[2]
+    
+    # Manage if the page does not exists
+    
   } else output <- "The page doesn't exist."
   
+  # Manage if the translation does not exists
+  
   if(is.na(output)) output <- "The translation doesn't exist."
+  
+  # Return Output 
   
   return(output)
   
 }
 
-##### wiki_extract_categories -----------------
 
-wiki_extract_categories <- function(page_vector){
-  
-  output_vector <- NULL
-  
-  for(i in 1:length(page_vector)){
-    
-    page <- page_vector[i]
-    wiki_dirty <- unlist((categories_in_page("en",project="wikipedia", pages =page)))
-    wiki_dirty <- as.vector(wiki_dirty)
-    wiki_dirty <- wiki_dirty[grep("Category:", wiki_dirty)]
-    wiki_dirty <- gsub("Category:","", wiki_dirty)
-    wiki_dirty <- paste(wiki_dirty, collapse = "; ")
-    output_vector[i] <- wiki_dirty
-    
-  }
-  
-  
-  for(i in 1:length(page_vector)){
-    
-    if(output_vector[i]==""){
-      page <- page_vector[i]
-      wiki_dirty <- unlist((categories_in_page("en",project="wikipedia", pages =tolower(page))))
-      wiki_dirty <- as.vector(wiki_dirty)
-      wiki_dirty <- wiki_dirty[grep("Category:", wiki_dirty)]
-      wiki_dirty <- gsub("Category:","", wiki_dirty)
-      wiki_dirty <- paste(wiki_dirty, collapse = "; ")
-      output_vector[i] <- wiki_dirty}
-    
-  }
-  
-  
-  return(output_vector)
-  
-}
+# wiki_extract_categories -------------------------------------------------
 
-##### technimeter_add_anchors -----------------
 
-technimeter_add_anchors <- function(technimeter_table){
+wiki_extract_categories <- function(page_name, language = "en"){
   
-  regex_tech <- "^" %R% or1(technimeter_table$name) %R% "$"
+  # Remove white space from the page
   
-  #RIVEDERE, prende solo i primi
-  anchors_table <- technimeter_table %>% 
-    select(name, links) %>% 
-    unnest_tokens(link, links, token = "regex", pattern = " \\| ") %>% 
-    mutate(is_anchor= str_detect(link, regex_tech)) %>% 
-    group_by(name) %>% 
-    filter(is_anchor) %>% 
-    mutate(anchors = str_c(link, collapse = " | ")) %>% 
-    select(-is_anchor, -link) %>% 
-    filter(!duplicated(name)) %>% 
-    ungroup() 
+  page_name_in <- page_name %>% 
+    str_replace_all(" ", "_")
   
+  # Extract Wikipedia Category
   
-  technimeter_table <- technimeter_table %>% 
-    left_join(anchors_table)
+  wiki_dirty <- unlist((categories_in_page(language = language, project="wikipedia", pages = page_name_in))) 
   
-  return(technimeter_table)
+  # Transform in vector the extracted category
   
+  output <- as.vector(wiki_dirty) %>% 
+    str_to_lower() %>% 
+    .[grep("category:", .)] %>%
+    str_replace_all("category:", "") %>% 
+    as_tibble() %>%
+    
+    # remove the category equal to page name
+    filter(!value == page_name) %>% 
+    pull(value) %>% 
+    str_c(collapse = "; ") 
+    
+    
+  
+  # Return Output
+  
+  return(output)
   
 }

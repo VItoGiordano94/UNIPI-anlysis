@@ -223,8 +223,7 @@ patent_query <- function(query, uspat = "on", usapp = "on",
   # Inizializate outpuet
   
   output <- tibble(
-    link = patent_ref(query, uspat, usapp, eupat, stemming, jp, pct, depat, p_start,
-                      p_end = 1)
+    link = patent_ref(query, uspat, usapp, eupat, stemming, jp, pct, depat, p_start, p_end)
   )
   
   

@@ -41,6 +41,7 @@ The function **patent_query** is a function that extract the URLs, title and abs
 - **stemming**: *string object*. This argumnet allows you to stemm the query for your search. If you don't want to include the stemming words in your search you must set **stemming** as *"off"*. Otherwise, if you want to include the stemming words in your search you must set **stemming** as *"on"*. The default value of the argument **stemming** is *"off"*.
 - **page_start**: *integer*. This argumnet allows you to set the starting page to find the URLs related to the input query. The default value of the argument is *1*.
 - **page_end**: *integer*. This argumnet allows you to set the ending page to find the URLs related to the input query. The default value of the argument is *FALSE*, so it allow you to extract the URLs form starting page to the last page available on *FreePatentsOnline*. 
+- **sort**: *character*. This argumnet allows you to set the sorting of the page to find the URLs related to the input query. The default value of the argument is *"relevance"*, so it allow you to extract the URLs form high relevance page to the low relevance page available on *FreePatentsOnline*. For sorting the page in chronological order you must set this argument equal to *"chronological"*. 
 
 #### 2.2 Output
 The output is a *data frame* that contains the URL, title and abstract for each patent in FreePatentsOnline that you can find with your query.
@@ -59,6 +60,8 @@ The function **patent_ref** is a function that extract the URLs of the patents i
 - **stemming**: *string object*. This argumnet allows you to stemm the query for your search. If you don't want to include the stemming words in your search you must set **stemming** as *"off"*. Otherwise, if you want to include the stemming words in your search you must set **stemming** as *"on"*. The default value of the argument **stemming** is *"off"*.
 - **page_start**: *integer*. This argumnet allows you to set the starting page to find the URLs related to the input query. The default value of the argument is *1*.
 - **page_end**: *integer*. This argumnet allows you to set the ending page to find the URLs related to the input query. The default value of the argument is *FALSE*, so it allow you to extract the URLs form starting page to the last page available on *FreePatentsOnline*. 
+- **sort**: *character*. This argumnet allows you to set the sorting of the page to find the URLs related to the input query. The default value of the argument is *"relevance"*, so it allow you to extract the URLs form high relevance page to the low relevance page available on *FreePatentsOnline*. For sorting the page in chronological order you must set this argument equal to *"chronological"*. 
+
 
 #### 3.2 Output
 The output is a *string vector* that contains the URL of patents in FreePatentsOnline that you can find with your query.

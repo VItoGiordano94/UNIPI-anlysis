@@ -59,7 +59,7 @@ patent_count_query <- function(query, uspat = "on", usapp = "on",
 
 patent_ref <- function(query, uspat = "on", usapp = "on", 
                        eupat = "on", stemming = "off", jp = "off", pct = "off",
-                       depat = "off", p_start = 1, p_end = FALSE){
+                       depat = "off", p_start = 1, p_end = FALSE, sort = "relevance"){
   # Modify Query
   
   query <- query %>% 
@@ -102,7 +102,8 @@ patent_ref <- function(query, uspat = "on", usapp = "on",
                   "&pct=", pct,
                   "&depat=", depat,
                   "&date_range=all&stemming=", stemming,
-                  "&sort=relevance&search=Search",sep = "")
+                  "&sort=", sort,
+                  "&search=Search",sep = "")
     
     page <- read_html(link)
     
@@ -205,7 +206,7 @@ patent_abs <- function(link){
 
 patent_query <- function(query, uspat = "on", usapp = "on", 
                          eupat = "on", stemming = "off", jp = "off", pct = "off",
-                         depat = "off", p_start = 1, p_end = FALSE){
+                         depat = "off", p_start = 1, p_end = FALSE, sort = "relevance"){
  
    # Clean query 
   
@@ -223,7 +224,7 @@ patent_query <- function(query, uspat = "on", usapp = "on",
   # Inizializate outpuet
   
   output <- tibble(
-    link = patent_ref(query, uspat, usapp, eupat, stemming, jp, pct, depat, p_start, p_end)
+    link = patent_ref(query, uspat, usapp, eupat, stemming, jp, pct, depat, p_start, p_end, sort)
   )
   
   

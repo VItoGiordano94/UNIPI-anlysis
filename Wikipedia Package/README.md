@@ -7,7 +7,7 @@ Wikipedia is a multilingual online encyclopaedia created and maintained as an op
 The Wikipedia package use the following external package sources:
 - **tidyverse**
 - **rvest**
-- **wikipediaR**
+- **wikipediR**
 - **rebus**
 
 You must rember to install these packages and import (using *library()*) in your R workspace.
